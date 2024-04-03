@@ -3,6 +3,7 @@
     justify-content: center;
     list-style-type: none;
     padding: 0;
+    flex-wrap: wrap;
   }
   
 
@@ -12,7 +13,7 @@
     background-color: #fff;
     border-radius: 4px;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    margin: 5px;
+    margin: 8px;
   }
   
   .page-link:hover {
@@ -20,4 +21,15 @@
     color: #555;
     border-color: #aaa;
   }
+  @media screen and (max-width: 600px) {
+    .pagination {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 8px;
+    }
   
+    .page-link {
+      margin: 5px 2px;
+    }
+  }

@@ -128,7 +128,6 @@ function Users() {
       </div>
     ) : (<TeamCreator onClose={hideTeamCreatorModal} />)
   );
-  
 }
 
 export default Users;

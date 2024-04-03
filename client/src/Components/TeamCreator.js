@@ -60,30 +60,35 @@ function TeamCreator({ onClose }) {
         </div>
       ) : (
         <div>
-          <label htmlFor="teamName">Team Name:</label>
           <div>
             <h3>Select Users:</h3>
+            <div className='btns'>
+            <button onClick={createUserTeam}>Create Team</button>
+            <button onClick={onClose}>Cancel</button>
+            </div>
             <ul className='select-user'>
               {users.map((user) => (
                 <li key={user.id} >
-                    <div >
+                  <div >
 
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.some(u => u.id === user.id)}
-                      onChange={() => handleUserSelect(user)}
-                      disabled={!isUserSelectable(user)}
-                    />
-                    {user.first_name} {user.last_name} - {user.domain} ({user.available ? 'Available' : 'Not Available'})
-                  </label>
-                    </div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.some(u => u.id === user.id)}
+                        onChange={() => handleUserSelect(user)}
+                        disabled={!isUserSelectable(user)}
+                      />
+                      {user.first_name} {user.last_name} - {user.domain} ({user.available ? 'Available' : 'Not Available'})
+                    </label>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
-          <button onClick={createUserTeam}>Create Team</button>
-          <button onClick={onClose}>Cancel</button>
+          <div className='btns'>
+            <button onClick={createUserTeam}>Create Team</button>
+            <button onClick={onClose}>Cancel</button>
+            </div>
         </div>
       )}
     </div>

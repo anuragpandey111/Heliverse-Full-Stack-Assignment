@@ -63,7 +63,9 @@
     align-items: center;
     width: 300px;
   }
-  
-
-  
+  .team-creator .btns{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
   
