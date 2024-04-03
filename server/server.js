@@ -6,6 +6,7 @@ const allUsers=require('./routes/users')
 const userByID=require('./routes/usersByID')
 const newUser=require('./routes/createUser')
 const updateUser=require('./routes/updateUser')
+const deleteUser=require('./routes/deleteUser')
 const cors=require('cors')
 
 const app=express()
@@ -19,6 +20,7 @@ app.use('/',allUsers)
 app.use('/',userByID)
 app.use('/',newUser)
 app.use('/',updateUser)
+app.use('/',deleteUser)
 
 app.listen(process.env.PORT,()=>{
     mongoose.connect(process.env.DB_LINK)

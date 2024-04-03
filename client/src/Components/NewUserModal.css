@@ -1,0 +1,34 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content h2{
+    text-align: center;
+  }
+  .modal-content form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    border-radius: 8px;
+    width: 40vw;
+  }
+
+ .modal-content input, .modal-content select, .modal-content button {
+    margin-bottom: 10px;
+    width: 80%;
+    height: 30px;
+    border-radius: 10px;
+  }
+  

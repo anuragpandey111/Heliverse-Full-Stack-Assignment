@@ -3,7 +3,10 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import UserCard from './UserCard';
 import TeamCreator from './TeamCreator';
-import './Users.css'
+import NewUserModal from './NewUserModal';
+import EditUserModal from './EditUserModal'; 
+import './Users.css';
+import { toast } from 'react-toastify';
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -16,6 +19,9 @@ function Users() {
     available: []
   });
   const [showTeamCreator, setShowTeamCreator] = useState(false);
+  const [showNewUserModal, setShowNewUserModal] = useState(false);
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -34,7 +40,7 @@ function Users() {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.filter(user => {
     const matchesSearchTerm = user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              user.last_name.toLowerCase().includes(searchTerm.toLowerCase());
+      user.last_name.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesDomain = filters.domain.length === 0 || filters.domain.includes(user.domain);
 
@@ -59,6 +65,16 @@ function Users() {
     setCurrentPage(1);
   };
 
+  const handleUserDelete = async (deletedUserId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/deleteuser/${deletedUserId}`);
+      setUsers(users.filter(user => user.id !== deletedUserId));
+      toast.success('User deleted successfully');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast.error('Failed to delete user. Please try again.');
+    }
+  };
   const showTeamCreatorModal = () => {
     setShowTeamCreator(true);
   };
@@ -67,11 +83,34 @@ function Users() {
     setShowTeamCreator(false);
   };
 
+  const handleNewUserSubmit = async (newUserData) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/createuser', newUserData);
+      setUsers([...users, response.data]);
+      if (response.status === 201) {
+        toast.success('User added successfully')
+      } else {
+        toast.error("Failed to add user. Check again")
+      }
+    } catch (error) {
+      console.error('Error creating new user:', error);
+    }
+  };
+
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setShowEditUserModal(true);
+  };
+
+
   return (
     !showTeamCreator ? (
       <div className="container">
         <h1>Users</h1>
+        <div className='btns'>
+        <button onClick={() => setShowNewUserModal(true)}>Add New User</button>
         <button onClick={showTeamCreatorModal}>Create Team</button>
+        </div>
         <input
           type="text"
           placeholder="Search by name..."
@@ -117,7 +156,7 @@ function Users() {
         </div>
         <div className="card-container">
           {currentUsers.map(user => (
-            <UserCard key={user.id} user={user} />
+            <UserCard key={user.id} user={user} onEdit={() => handleEditUser(user)} onDelete={handleUserDelete} />
           ))}
         </div>
         <Pagination
@@ -125,6 +164,11 @@ function Users() {
           totalUsers={users.length}
           paginate={paginate}
         />
+        <NewUserModal isOpen={showNewUserModal} onClose={() => setShowNewUserModal(false)} onNewUserSubmit={handleNewUserSubmit} />
+        <EditUserModal
+          user={selectedUser}
+        />
+
       </div>
     ) : (<TeamCreator onClose={hideTeamCreatorModal} />)
   );

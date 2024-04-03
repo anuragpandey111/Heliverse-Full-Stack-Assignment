@@ -1,0 +1,11 @@
+.card button{
+    padding: 5px;
+    margin-right: 5px;
+}
+.card .firstDiv{
+    display: flex;
+    justify-content: space-between;
+}
+#delete{
+    background-color: red;
+}
