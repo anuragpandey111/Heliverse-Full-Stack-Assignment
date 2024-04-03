@@ -13,7 +13,7 @@ function EditUserModal({ isOpen, onClose, user, onUserUpdate }) {
   const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-          const response = await axios.put(`http://localhost:5000/api/updateuser/${editedUserData.id}`, editedUserData);
+          const response = await axios.put(`https://heliverse-full-stack-assignment-29sw.onrender.com/api/updateuser/${editedUserData.id}`, editedUserData);
       if (response.status === 200) {
         onUserUpdate(editedUserData);
         onClose();

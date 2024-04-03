@@ -22,7 +22,7 @@ function UserCard({ user, onDelete }) {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/deleteuser/${editedUserData.id}`);
+      await axios.delete(`https://heliverse-full-stack-assignment-29sw.onrender.com/api/deleteuser/${editedUserData.id}`);
       onDelete(editedUserData.id);
       console.log('User deleted successfully');
     } catch (error) {

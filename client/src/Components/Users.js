@@ -4,7 +4,7 @@ import Pagination from './Pagination';
 import UserCard from './UserCard';
 import TeamCreator from './TeamCreator';
 import NewUserModal from './NewUserModal';
-import EditUserModal from './EditUserModal'; 
+import EditUserModal from './EditUserModal';
 import './Users.css';
 import { toast } from 'react-toastify';
 
@@ -22,6 +22,7 @@ function Users() {
   const [showNewUserModal, setShowNewUserModal] = useState(false);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchUsers();
@@ -29,8 +30,9 @@ function Users() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users');
+      const response = await axios.get('https://heliverse-full-stack-assignment-29sw.onrender.com/api/users');
       setUsers(response.data);
+      setLoading(false)
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -67,7 +69,7 @@ function Users() {
 
   const handleUserDelete = async (deletedUserId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/deleteuser/${deletedUserId}`);
+      await axios.delete(`https://heliverse-full-stack-assignment-29sw.onrender.com/api/deleteuser/${deletedUserId}`);
       setUsers(users.filter(user => user.id !== deletedUserId));
       toast.success('User deleted successfully');
     } catch (error) {
@@ -85,7 +87,7 @@ function Users() {
 
   const handleNewUserSubmit = async (newUserData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/createuser', newUserData);
+      const response = await axios.post('https://heliverse-full-stack-assignment-29sw.onrender.com/api/createuser', newUserData);
       setUsers([...users, response.data]);
       if (response.status === 201) {
         toast.success('User added successfully')
@@ -108,8 +110,8 @@ function Users() {
       <div className="container">
         <h1>Users</h1>
         <div className='btns'>
-        <button onClick={() => setShowNewUserModal(true)}>Add New User</button>
-        <button onClick={showTeamCreatorModal}>Create Team</button>
+          <button onClick={() => setShowNewUserModal(true)}>Add New User</button>
+          <button onClick={showTeamCreatorModal}>Create Team</button>
         </div>
         <input
           type="text"
@@ -154,11 +156,14 @@ function Users() {
             </select>
           </div>
         </div>
-        <div className="card-container">
-          {currentUsers.map(user => (
-            <UserCard key={user.id} user={user} onEdit={() => handleEditUser(user)} onDelete={handleUserDelete} />
-          ))}
-        </div>
+        {loading ? (<h1 id='loading'>Loading...</h1>) : (
+          <div className="card-container">
+            {currentUsers.map(user => (
+              <UserCard key={user.id} user={user} onEdit={() => handleEditUser(user)} onDelete={handleUserDelete} />
+            ))}
+          </div>
+        )}
+
         <Pagination
           usersPerPage={usersPerPage}
           totalUsers={users.length}
