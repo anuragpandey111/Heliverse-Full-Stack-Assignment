@@ -87,7 +87,7 @@ function Users() {
               <option value="Finance">Finance</option>
               <option value="Marketing">Marketing</option>
               <option value="IT">IT</option>
-              <option value="Business Development">IBusiness Development</option>
+              <option value="Business Development">Business Development</option>
               <option value="Management">Management</option>
               <option value="UI Designing">UI Designing</option>
             </select>
